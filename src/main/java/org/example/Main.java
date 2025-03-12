@@ -3,6 +3,7 @@ package org.example;
 import org.calculator.Calculator;
 import org.calculator.InputHandler;
 import org.exceptions.DivideByZeroException;
+import org.exceptions.ErrorHandler;
 
 public class Main {
   public static void main(String[] args) {
@@ -18,7 +19,7 @@ public class Main {
         double result = calculator.calculate(num1, num2, operator);
         System.out.println("Результат: " + result);
       } catch (DivideByZeroException e) {
-        System.out.println(e.getMessage());
+        ErrorHandler.handleException(e);
       }
 
 
