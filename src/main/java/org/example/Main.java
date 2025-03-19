@@ -1,38 +1,25 @@
 package org.example;
 
 import org.calculator.Calculator;
-import org.calculator.InputHandler;
-import org.exceptions.DivideByZeroException;
-import org.exceptions.ErrorHandler;
+import org.calculator.ExpressionParser;
+
+import java.util.List;
 
 public class Main {
   public static void main(String[] args) {
-    InputHandler inputHandler = new InputHandler();
     Calculator calculator = new Calculator();
+    ExpressionParser parser = new ExpressionParser();
 
-    while (true) { // Запускаем бесконечный цикл
-      double num1 = inputHandler.getNumber("Введите первое число: ");
-      double num2 = inputHandler.getNumber("Введите второе число: ");
-      String operator = inputHandler.getOperator();
+    List<String> tokens1 = parser.parse("12.5 + 34.7 * 5");
+    System.out.println(tokens1); // ["12.5", "+", "34.7", "*", "5"]
 
-      try {
-        double result = calculator.calculate(num1, num2, operator);
-        System.out.println("Результат: " + result);
-      } catch (DivideByZeroException e) {
-        ErrorHandler.handleException(e);
-      }
+    List<String> tokens2 = parser.parse("(3.14 + 2) * 4 - .5");
+    System.out.println(tokens2); // ["(", "3.14", "+", "2", ")", "*", "4", "-", "0.5"]
 
+    List<String> tokens3 = parser.parse("5 + (10. - 3.5) * 2");
+    System.out.println(tokens3); // ["5", "+", "(", "10", "-", "3.5", ")", "*", "2"]
 
-      System.out.print("Хотите выполнить новый расчет? (y/n): ");
-      String choice = inputHandler.getScanner().nextLine().trim().toLowerCase();
-
-      if (choice.equals("n")) {
-        System.out.println("Программа завершена.");
-        break;
-      }
-    }
-
-    inputHandler.closeScanner(); // Закрываем Scanner перед выходом
+    List<String> tokens4 = parser.parse("1.2.3 + 4"); // Ошибочный ввод
+    System.out.println(tokens4); // ["1.2", "3", "+", "4"]
   }
 }
-
