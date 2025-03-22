@@ -78,6 +78,7 @@ public class ExpressionEvaluator {
   }
 
   private boolean isNumber(String token) {
-    return token.matches("-?\\d+(\\.\\d+)?");
+    return token.matches("-?(\\d+(\\.\\d+)?|\\.\\d+)");
   }
+
 }
